@@ -22,7 +22,7 @@ export class LoginPage {
     this.authService.loginUser(this.email, this.password).subscribe(
       (user) => {
         console.log('User logged in:', user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/dashboard']); // Redirect to dashboard after login
       },
       (error) => {
         console.error('Error logging in:', error);

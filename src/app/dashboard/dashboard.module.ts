@@ -10,11 +10,11 @@ import { DashboardPage } from './dashboard.page';
 
 @NgModule({
   imports: [
+    DashboardPage,
     CommonModule,
     FormsModule,
     IonicModule,
     DashboardPageRoutingModule
   ],
-  declarations: [DashboardPage]
 })
 export class DashboardPageModule {}

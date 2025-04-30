@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -15,34 +16,47 @@ import { IonicModule } from '@ionic/angular';
 export class HomePage {
   email: string = '';
   password: string = '';
-  isLogin: boolean = true; // toggle between login/register form
+  isLogin: boolean = true;
 
   constructor(
     private authService: AuthService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router // ✅ Inject Router
   ) {}
 
-  async presentToast(message: string) {
+  async presentToast(message: string, color: string = 'success') {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
       position: 'top',
-      color: 'success'
+      color
     });
     toast.present();
   }
 
   login() {
-    this.authService.loginUser(this.email, this.password).subscribe(
-      () => this.presentToast('You have successfully logged in!'),
-      (error) => this.presentToast('Login failed. Please try again.')
+    this.authService.login(this.email, this.password).subscribe(
+      () => {
+        this.presentToast('You have successfully logged in!');
+        this.router.navigate(['/dashboard']); // ✅ Navigate after login
+      },
+      (error) => {
+        console.error(error);
+        this.presentToast('Login failed. Please try again.', 'danger');
+      }
     );
   }
 
   register() {
-    this.authService.registerUser(this.email, this.password).subscribe(
-      () => this.presentToast('You have successfully registered!'),
-      (error) => this.presentToast('Registration failed. Please try again.')
+    this.authService.register(this.email, this.password).subscribe(
+      () => {
+        this.presentToast('You have successfully registered!');
+        this.router.navigate(['/home']); // ✅ Navigate after register
+      },
+      (error) => {
+        console.error(error);
+        this.presentToast('Registration failed. Please try again.', 'danger');
+      }
     );
   }
 }
