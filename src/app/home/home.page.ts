@@ -51,7 +51,7 @@ export class HomePage {
     this.authService.register(this.email, this.password).subscribe(
       () => {
         this.presentToast('You have successfully registered!');
-        this.router.navigate(['/home']); // ✅ Navigate after register
+        this.isLogin = true; // ✅ Switch to login form after registration
       },
       (error) => {
         console.error(error);
